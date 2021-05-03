@@ -1,0 +1,24 @@
+bundles: []
+database: postgres
+models:
+  repository:
+    name: repository
+    namepascalcase: Repository
+    namelowercase: repository
+    hasdate: false
+    hascustomtypes: false
+    fields:
+    - type: string
+      name: Name
+      isslice: false
+      slicetype: ""
+    - type: string
+      name: Author
+      isslice: false
+      slicetype: ""
+    - type: string
+      name: Base64
+      isslice: false
+      slicetype: ""
+package: github.com/edwinvautier/gh-readme-contrib
+use_docker: true
