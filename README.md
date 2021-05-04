@@ -3,6 +3,8 @@
 [![CodeQL](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/codeql-analysis.yml)
 [![Build](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/ci.yml/badge.svg)](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/ci.yml)
 
+![img](http://localhost:8000/api/edwinvautier/go-gadgeto)
+
 ## Setup
 
 First time you run the project ? Run :
