@@ -1,9 +1,9 @@
 package repositories
 
 import (
-  "github.com/edwinvautier/gh-readme-contrib/shared/database"
-  "github.com/edwinvautier/gh-readme-contrib/api/models"
 	"errors"
+	"github.com/edwinvautier/gh-readme-contrib/api/models"
+	"github.com/edwinvautier/gh-readme-contrib/shared/database"
 	"github.com/jinzhu/gorm"
 )
 

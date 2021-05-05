@@ -2,7 +2,7 @@ package routes
 
 import (
 	"github.com/edwinvautier/gh-readme-contrib/api/controllers"
-	
+
 	"github.com/gin-gonic/gin"
 )
 

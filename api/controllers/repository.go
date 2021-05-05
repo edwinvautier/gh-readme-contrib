@@ -6,30 +6,32 @@ import (
 
 	"github.com/edwinvautier/gh-readme-contrib/api/models"
 	"github.com/edwinvautier/gh-readme-contrib/api/repositories"
+	"github.com/edwinvautier/gh-readme-contrib/shared/env"
 	"github.com/edwinvautier/gh-readme-contrib/shared/helpers"
 	"github.com/edwinvautier/gh-readme-contrib/shared/services"
 	"github.com/gin-gonic/gin"
 	"github.com/google/go-github/v35/github"
 	log "github.com/sirupsen/logrus"
+	"golang.org/x/oauth2"
 )
 
 // CreateRepository is the controller to create a new repository
 func CreateRepository(c *gin.Context) {
-  var repositoryForm models.RepositoryForm
-  if err := c.ShouldBindJSON(&repositoryForm); err != nil {
-    c.JSON(http.StatusBadRequest, "invalid informations provided")
-    return
-  }
+	var repositoryForm models.RepositoryForm
+	if err := c.ShouldBindJSON(&repositoryForm); err != nil {
+		c.JSON(http.StatusBadRequest, "invalid informations provided")
+		return
+	}
 
 	if err := models.ValidateRepository(&repositoryForm); err != nil {
 		c.JSON(http.StatusBadRequest, err.Error())
 		return
 	}
 
-	repository := models.Repository{ 
-	  Name: repositoryForm.Name,
-	  Author: repositoryForm.Author,
-	  Base64: repositoryForm.Base64,
+	repository := models.Repository{
+		Name:   repositoryForm.Name,
+		Author: repositoryForm.Author,
+		Base64: repositoryForm.Base64,
 	}
 
 	if err := repositories.CreateRepository(&repository); err != nil {
@@ -42,8 +44,14 @@ func CreateRepository(c *gin.Context) {
 
 // GetRepositoryByNameAndAuthor is the controller to get a repository by Name
 func GetRepositoryByNameAndAuthor(c *gin.Context) {
-  config := services.InitChartConfig(c)
-	client := github.NewClient(nil)
+	config := services.InitChartConfig(c)
+
+	ctx := context.Background()
+	ts := oauth2.StaticTokenSource(
+		&oauth2.Token{AccessToken: env.GoDotEnvVariable("GH_API_TOKEN")},
+	)
+	tc := oauth2.NewClient(ctx, ts)
+	client := github.NewClient(tc)
 
 	stats, _, err := client.Repositories.ListCommitActivity(context.TODO(), config.Author, config.Name)
 	if err != nil {
@@ -51,7 +59,7 @@ func GetRepositoryByNameAndAuthor(c *gin.Context) {
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
-	
+
 	config.WeeklyStats = stats
 	chart, err := services.GenerateChartFromContribs(config)
 	if err != nil {
@@ -59,15 +67,15 @@ func GetRepositoryByNameAndAuthor(c *gin.Context) {
 		return
 	}
 	log.Info(chart)
-	
+
 	c.Header("Content-type", "image/svg+xml")
 	c.String(200, chart)
 }
 
 // GetAllRepository is the controller to get all repository
 func GetAllRepository(c *gin.Context) {
-	repositoryList, err := repositories.FindAllRepository();
-  if err != nil {
+	repositoryList, err := repositories.FindAllRepository()
+	if err != nil {
 		c.JSON(http.StatusNotFound, "Couldn't find repository. Try again.")
 		return
 	}
@@ -77,12 +85,12 @@ func GetAllRepository(c *gin.Context) {
 
 // UpdateRepository is the controller to update a repository
 func UpdateRepository(c *gin.Context) {
-  ID := helpers.ParseStringToUint64(c.Param("id")) 
-  var repository models.Repository
-  if err := c.ShouldBindJSON(&repository); err != nil {
-    c.JSON(http.StatusBadRequest, "invalid informations provided")
-    return
-  }
+	ID := helpers.ParseStringToUint64(c.Param("id"))
+	var repository models.Repository
+	if err := c.ShouldBindJSON(&repository); err != nil {
+		c.JSON(http.StatusBadRequest, "invalid informations provided")
+		return
+	}
 
 	if err := repositories.UpdateRepositoryByID(&repository, ID); err != nil {
 		c.JSON(http.StatusInternalServerError, "Couldn't update repository. Try again.")
@@ -94,10 +102,10 @@ func UpdateRepository(c *gin.Context) {
 
 // DeleteRepositoryByID is the controller to delete a repository by id
 func DeleteRepositoryByID(c *gin.Context) {
-  ID := helpers.ParseStringToUint64(c.Param("id"))
+	ID := helpers.ParseStringToUint64(c.Param("id"))
 
-	_, err := repositories.DeleteRepositoryByID(ID);
-  if err != nil {
+	_, err := repositories.DeleteRepositoryByID(ID)
+	if err != nil {
 		c.JSON(http.StatusNotFound, "Couldn't find repository. Try again.")
 		return
 	}

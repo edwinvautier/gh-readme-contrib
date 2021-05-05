@@ -18,7 +18,7 @@ var Db *gorm.DB
 type Config struct {
 	User     string `env:"DB_USER"`
 	Password string `env:"DB_PASSWORD"`
-	Port     int64    `env:"DB_PORT" envDefault:"5432"`
+	Port     int64  `env:"DB_PORT" envDefault:"5432"`
 	Host     string `env:"DB_HOST"`
 	Name     string `env:"DB_NAME"`
 }
@@ -26,7 +26,7 @@ type Config struct {
 // Init Initializes a db connection
 func Init(cfg Config) error {
 	dbURL := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
-	
+
 	var tmpDb *gorm.DB
 	var err error
 
