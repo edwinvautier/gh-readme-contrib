@@ -42,27 +42,26 @@ func CreateRepository(c *gin.Context) {
 
 // GetRepositoryByNameAndAuthor is the controller to get a repository by Name
 func GetRepositoryByNameAndAuthor(c *gin.Context) {
-  name := c.Param("repository")
-  author := c.Param("author")
+  config := services.InitChartConfig(c)
 	client := github.NewClient(nil)
-	stats, _, err := client.Repositories.ListContributorsStats(context.TODO(), author, name)
+
+	stats, _, err := client.Repositories.ListCommitActivity(context.TODO(), config.Author, config.Name)
 	if err != nil {
 		log.Error(err)
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
-	chart, err := services.GenerateChartFromContribs(stats)
+	
+	config.WeeklyStats = stats
+	chart, err := services.GenerateChartFromContribs(config)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
 	log.Info(chart)
-	svg := `
-	<svg id="Layer_1" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="20px" height="20px" viewBox="0 0 20 20" enable-background="new 0 0 20 20" xml:space="preserve">
-<path fill="#4D4D4D" d="M1.171,20c-0.292,0-0.585-0.111-0.809-0.334c-0.448-0.447-0.449-1.172-0.003-1.619l8.022-8.045L0.349,1.968 c-0.448-0.447-0.448-1.172,0-1.62c0.447-0.447,1.171-0.447,1.618,0l8.032,8.031l8.02-8.042c0.446-0.449,1.172-0.449,1.62-0.002 c0.448,0.447,0.448,1.171,0.002,1.62L11.618,10l8.033,8.033c0.447,0.447,0.447,1.172,0,1.619c-0.447,0.446-1.172,0.446-1.619,0 l-8.03-8.031l-8.02,8.043C1.758,19.888,1.464,20,1.171,20z"></path>
-</svg>`
+	
 	c.Header("Content-type", "image/svg+xml")
-	c.String(200, svg)
+	c.String(200, chart)
 }
 
 // GetAllRepository is the controller to get all repository
