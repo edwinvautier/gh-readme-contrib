@@ -26,17 +26,17 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
     <linearGradient id="gradient" x1="50%" y1="0%" x2="50%" y2="100%">
       <stop offset="0%"   stop-color="#1645ff"/>
       <stop offset="50%"   stop-color="#1645ff"/>
-      <stop offset="150%" stop-color="#7b99fc"/>
+      <stop offset="150%" stop-color="#141321"/>
     </linearGradient>
   </defs>
 	<g>
 	<title>Commits chart</title>
-	<rect id="svg_3" height="270" width="440" fill="#` + config.UI.BackgroundColor + `"/>
-	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#fff"/>
-	<text xml:space="preserve" text-anchor="start" font-family="sans-serif" font-size="12" stroke-width="0" id="svg_4" y="20" x="10" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
-	<line id="svg_5" y2="240" x2="115" y1="40" x1="115" stroke="#AAA" fill="none"/>
-	<line id="svg_8" y2="240" x2="220" y1="40" x1="220" stroke="#AAA" fill="none"/>
-	<line id="svg_9" y2="240" x2="325" y1="40" x1="325" stroke="#AAA" fill="none"/>
+	<rect rx="15" id="svg_3" height="270" width="440" fill="#` + config.UI.BackgroundColor + `"/>
+	<rect y="40" x="10" id="svg_7" stroke="black" stroke-width="3px" height="200" width="420" fill="#32304c"/>
+	<text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="sans-serif" font-size="12" stroke-width="0" id="svg_4" y="20" x="10" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
+	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#AAA" fill="none"/>
+	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#AAA" fill="none"/>
+	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#AAA" fill="none"/>
 	`
 	points := []Point{
 		{
@@ -63,7 +63,9 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	path := renderCurve(points)
 	svg += path
 	svg += `
+	<rect y="40" x="10" id="svg_17" stroke="#141321" stroke-width="3px" height="200" width="420" fill="none"/>
 	</g>
+
  </svg>`
 
 	return svg, nil
@@ -95,9 +97,9 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 
 	// UI Config
 	config.UI = UIConfig{
-		BackgroundColor: "ddd",
+		BackgroundColor: "141321",
 		LineColor:       "f0f",
-		TextColor:       "333",
+		TextColor:       "D83A7C",
 	}
 	config.MaxHeight = 190
 
@@ -105,7 +107,7 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 }
 
 func renderCurve(points []Point) string {
-	path := "<path fill=\"url(#gradient)\" stroke=\"none\" d=\""
+	path := "<path fill-opacity=\"0.7\" fill=\"url(#gradient)\" stroke-width=\"3px\" stroke=\"blue\" d=\""
 
 	for i := 0; i < len(points); i++ {
 		point := points[i]
@@ -115,7 +117,7 @@ func renderCurve(points []Point) string {
 			path+= bezier(point, i, points)
 		}
 	}
-	path += "\"/>"
+	path += " L 430 240\"/>"
 
 	return path
 }
