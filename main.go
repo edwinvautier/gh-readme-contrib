@@ -35,10 +35,10 @@ func main() {
 	router := gin.Default()
 
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:   	[]string{"*"},
-		AllowMethods:   	[]string{"GET", "PUT", "POST", "DELETE"},
-		AllowHeaders:  	  []string{"Origin", "Authorization", "Content-Type"},
-		ExposeHeaders:   []string{"Authorization"},
+		AllowOrigins:     []string{"*"},
+		AllowMethods:     []string{"GET", "PUT", "POST", "DELETE"},
+		AllowHeaders:     []string{"Origin", "Authorization", "Content-Type"},
+		ExposeHeaders:    []string{"Authorization"},
 		MaxAge:           50 * time.Second,
 		AllowCredentials: true,
 	}))

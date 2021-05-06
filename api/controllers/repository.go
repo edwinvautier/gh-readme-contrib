@@ -1,18 +1,14 @@
 package controllers
 
 import (
-	"context"
 	"net/http"
 
 	"github.com/edwinvautier/gh-readme-contrib/api/models"
 	"github.com/edwinvautier/gh-readme-contrib/api/repositories"
-	"github.com/edwinvautier/gh-readme-contrib/shared/env"
 	"github.com/edwinvautier/gh-readme-contrib/shared/helpers"
 	"github.com/edwinvautier/gh-readme-contrib/shared/services"
 	"github.com/gin-gonic/gin"
-	"github.com/google/go-github/v35/github"
 	log "github.com/sirupsen/logrus"
-	"golang.org/x/oauth2"
 )
 
 // CreateRepository is the controller to create a new repository
@@ -31,7 +27,6 @@ func CreateRepository(c *gin.Context) {
 	repository := models.Repository{
 		Name:   repositoryForm.Name,
 		Author: repositoryForm.Author,
-		Base64: repositoryForm.Base64,
 	}
 
 	if err := repositories.CreateRepository(&repository); err != nil {
@@ -46,28 +41,30 @@ func CreateRepository(c *gin.Context) {
 func GetRepositoryByNameAndAuthor(c *gin.Context) {
 	config := services.InitChartConfig(c)
 
-	ctx := context.Background()
-	ts := oauth2.StaticTokenSource(
-		&oauth2.Token{AccessToken: env.GoDotEnvVariable("GH_API_TOKEN")},
-	)
-	tc := oauth2.NewClient(ctx, ts)
-	client := github.NewClient(tc)
+	var repository *models.Repository
+	var err error
+	if repository, err = repositories.FindRepositoryByAuthorAndName(config.Name, config.Author); err != nil {
+		// create repository
+		repository.Author = config.Author
+		repository.Name = config.Name
+		if err := repositories.CreateRepository(repository); err != nil {
+			c.JSON(http.StatusInternalServerError, err)
+			return
+		}
+	}
 
-	stats, _, err := client.Repositories.ListCommitActivity(context.TODO(), config.Author, config.Name)
+	weeks, err := repositories.FetchWeeks(repository)
 	if err != nil {
-		log.Error(err)
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
-
-	config.WeeklyStats = stats
+	config.WeeklyStats = weeks
 	chart, err := services.GenerateChartFromContribs(config)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, err)
 		return
 	}
 	log.Info(chart)
-
 	c.Header("Content-type", "image/svg+xml")
 	c.String(200, chart)
 }

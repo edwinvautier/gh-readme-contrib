@@ -2,18 +2,16 @@ package services
 
 import (
 	"fmt"
-	"os"
 
+	"github.com/edwinvautier/gh-readme-contrib/api/models"
 	"github.com/gin-gonic/gin"
-	"github.com/google/go-github/v35/github"
-	log "github.com/sirupsen/logrus"
 )
 
 func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	var max uint
 	for _, week := range config.WeeklyStats {
-		if uint(*week.Total) > max {
-			max = uint(*week.Total)
+		if uint(week.Total) > max {
+			max = uint(week.Total)
 		}
 	}
 	config.MaxValue = max
@@ -29,14 +27,13 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	<line id="svg_9" y2="240" x2="325" y1="40" x1="325" stroke="#AAA" fill="none"/>
 	`
 	for i := len(config.WeeklyStats) - 4; i < len(config.WeeklyStats); i++ {
-		currWeekValue := uint(*config.WeeklyStats[i].Total)
-		log.Info("week: ", currWeekValue)
-		prevWeekValue := uint(*config.WeeklyStats[i-1].Total)
+		currWeekValue := uint(config.WeeklyStats[i].Total)
+		prevWeekValue := uint(config.WeeklyStats[i-1].Total)
 		leftOffset := 10 + (i-len(config.WeeklyStats)+4)*105
 		prevHeight := 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, prevWeekValue)
 		currHeight := 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, currWeekValue)
 
-		line := fmt.Sprintf("<line y2=\"%d\" x2=\"%d\" y1=\"%d\" x1=\"%d\" stroke=\"#%s\" fill=\"transparent\"/>", currHeight, leftOffset+105, prevHeight, leftOffset, config.UI.LineColor)
+		line := fmt.Sprintf("<line y2=\"%d\" x2=\"%d\" y1=\"%d\" x1=\"%d\" stroke=\"#%s\"/>", currHeight, leftOffset+105, prevHeight, leftOffset, config.UI.LineColor)
 		svg += line
 	}
 	svg += `
@@ -56,7 +53,7 @@ type ChartConfig struct {
 	UI UIConfig
 	Author,
 	Name string
-	WeeklyStats []*github.WeeklyCommitActivity
+	WeeklyStats []models.Week
 }
 
 type UIConfig struct {

@@ -2,22 +2,45 @@ bundles: []
 database: postgres
 models:
   repository:
-    name: repository
-    namepascalcase: Repository
-    namelowercase: repository
-    hasdate: false
+    fields:
+    - isslice: false
+      name: Name
+      slicetype: ""
+      type: string
+    - isslice: false
+      name: Author
+      slicetype: ""
+      type: string
+    - isslice: false
+      name: Base64
+      slicetype: ""
+      type: string
     hascustomtypes: false
+    hasdate: false
+    name: repository
+    namelowercase: repository
+    namepascalcase: Repository
+  week:
+    name: Week
+    namepascalcase: Week
+    namelowercase: week
+    hasdate: false
+    hascustomtypes: true
     fields:
     - type: string
       name: Name
       isslice: false
       slicetype: ""
-    - type: string
-      name: Author
+    - type: uint
+      name: Total
       isslice: false
       slicetype: ""
-    - type: string
-      name: Base64
+    - type: uint64
+      name: RepositoryID
+      isslice: false
+      slicetype: ""
+    - type: Repository
+      name: Repository
       isslice: false
       slicetype: ""
 package: github.com/edwinvautier/gh-readme-contrib

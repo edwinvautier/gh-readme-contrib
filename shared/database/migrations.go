@@ -8,5 +8,5 @@ import (
 // Migrate executes migrations once the db is connected
 func Migrate() {
 	log.Info("Executing migrations...")
-	Db.AutoMigrate(&models.Repository{})
+	Db.AutoMigrate(&models.Repository{}, &models.Week{})
 }
