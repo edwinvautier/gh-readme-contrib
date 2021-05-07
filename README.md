@@ -1,17 +1,8 @@
 # gh-readme-contrib
 
-[![CodeQL](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/codeql-analysis.yml)
 [![Build](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/ci.yml/badge.svg)](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/ci.yml)
 
 ## Setup
-
-First time you run the project ? Run :
-
-```sh
-make first-run
-```
-
-This command creates the go mod and tidies dependencies and then call the make init command.
 
 > If you want more informations about the available make commands, run `make help`
 
@@ -22,8 +13,6 @@ make init
 # or
 make start
 ```
-
-The difference between make init and make start commands is that make init also copy .env.dist to .env and generates new RSA key.
 
 ## Branch naming convention
 

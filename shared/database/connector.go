@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/edwinvautier/gh-readme-contrib/shared/env"
 	"github.com/jinzhu/gorm"
 	log "github.com/sirupsen/logrus"
 
@@ -25,8 +26,9 @@ type Config struct {
 
 // Init Initializes a db connection
 func Init(cfg Config) error {
-	dbURL := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
-
+	//dbURL := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
+ 	dbURL := env.GoDotEnvVariable("DATABASE_URL")
+	
 	var tmpDb *gorm.DB
 	var err error
 
