@@ -19,8 +19,6 @@ import (
 )
 
 func main() {
-	f, err := os.OpenFile("log.txt", os.O_WRONLY | os.O_CREATE, 0755)
-	log.SetOutput(f)
 	// Connect to database and execute migrations
 	cfg := database.Config{}
 	cfg.User = env.GoDotEnvVariable("DB_USER")
@@ -28,7 +26,7 @@ func main() {
 	cfg.Port, _ = strconv.ParseInt(env.GoDotEnvVariable("DB_PORT"), 10, 0)
 	cfg.Name = env.GoDotEnvVariable("DB_NAME")
 	cfg.Host = env.GoDotEnvVariable("DB_HOST")
-	err = database.Init(cfg)
+	err := database.Init(cfg)
 	helpers.DieOnError("database connection failed", err)
 	database.Migrate()
 
@@ -44,10 +42,13 @@ func main() {
 		AllowCredentials: true,
 	}))
 	port := env.GoDotEnvVariable("PORT")
+	if port == "" {
+		port = "8000"
+	}
 	log.Info("try to run app on port ", port)
 	routes.Init(router)
 	go func() {
-		if err := router.Run(":8000"); err != nil && err != http.ErrServerClosed {
+		if err := router.Run(":", port); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
