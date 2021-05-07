@@ -43,9 +43,9 @@ func main() {
 		MaxAge:           50 * time.Second,
 		AllowCredentials: true,
 	}))
-	routes.Init(router)
 	port := env.GoDotEnvVariable("PORT")
 	log.Info("try to run app on port ", port)
+	routes.Init(router)
 	go func() {
 		if err := router.Run(":", port); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
