@@ -6,7 +6,6 @@ import (
 
 	"github.com/edwinvautier/gh-readme-contrib/api/models"
 	"github.com/gin-gonic/gin"
-	"github.com/sirupsen/logrus"
 )
 
 func GenerateChartFromContribs(config ChartConfig) (string, error) {
@@ -24,19 +23,22 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	}
 	<defs>
     <linearGradient id="gradient" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%"   stop-color="#1645ff"/>
-      <stop offset="50%"   stop-color="#1645ff"/>
+      <stop offset="0%"   stop-color="#ff7f00"/>
+      <stop offset="50%"   stop-color="#ff7f00"/>
       <stop offset="150%" stop-color="#141321"/>
     </linearGradient>
   </defs>
 	<g>
 	<title>Commits chart</title>
 	<rect rx="15" id="svg_3" height="270" width="440" fill="#` + config.UI.BackgroundColor + `"/>
-	<rect y="40" x="10" id="svg_7" stroke="black" stroke-width="3px" height="200" width="420" fill="#32304c"/>
-	<text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="sans-serif" font-size="12" stroke-width="0" id="svg_4" y="20" x="10" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
-	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#AAA" fill="none"/>
-	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#AAA" fill="none"/>
-	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#AAA" fill="none"/>
+	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#141321"/>
+	<text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
+	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#ff7f00" fill="none"/>
+	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="115" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 4].Date.Format("January 2") + `</text>
+	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#ff7f00" fill="none"/>
+	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 3].Date.Format("January 2") + `</text>
+	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#ff7f00" fill="none"/>
+	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="325" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 2].Date.Format("January 2") + `</text>
 	`
 	points := []Point{
 		{
@@ -63,7 +65,7 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	path := renderCurve(points)
 	svg += path
 	svg += `
-	<rect y="40" x="10" id="svg_17" stroke="#141321" stroke-width="3px" height="200" width="420" fill="none"/>
+	<path d="M 10 242 L 10 40 L 430 40 L 430 242" stroke-width="4px" stroke="#141321" fill="none"/>
 	</g>
 
  </svg>`
@@ -107,7 +109,7 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 }
 
 func renderCurve(points []Point) string {
-	path := "<path fill-opacity=\"0.7\" fill=\"url(#gradient)\" stroke-width=\"3px\" stroke=\"blue\" d=\""
+	path := "<path fill-opacity=\"0.7\" fill=\"url(#gradient)\" stroke-width=\"3px\" stroke=\"#ff7f00\" d=\""
 
 	for i := 0; i < len(points); i++ {
 		point := points[i]
@@ -142,7 +144,6 @@ func bezier(point Point, i int, points []Point) string {
 }
 
 func line(point1, point2 Point) Line {
-	logrus.Info("points ", point1, point2)
 	lengthX := float64(point1.X) - float64(point2.X) 
 	lengthY := float64(point1.Y) - float64(point2.Y)
 	return Line {
@@ -154,7 +155,6 @@ func line(point1, point2 Point) Line {
 func controlPoint(current, previous, next Point, reverse bool) Point {	
 	smoothing := 0.2
 	o := line(previous, next)
-	logrus.Info("line ", o.Angle, o.Length)
 	var angle float64
 	if reverse {
 		angle = math.Pi
@@ -164,7 +164,6 @@ func controlPoint(current, previous, next Point, reverse bool) Point {
 	length := o.Length * smoothing
 	x := float64(current.X) + math.Cos(angle) * length
 	y := float64(current.Y) + math.Sin(angle) * length
-	logrus.Info(math.Round(x))
 	return Point {
 		X: uint(math.Round(x)),
 		Y: uint(math.Round(y)),
