@@ -46,7 +46,7 @@ func main() {
 	routes.Init(router)
 
 	go func() {
-		if err := router.Run(":8000"); err != nil && err != http.ErrServerClosed {
+		if err := router.Run(":", env.GoDotEnvVariable("PORT")); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
