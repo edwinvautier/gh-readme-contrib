@@ -28,7 +28,7 @@ func main() {
 	cfg.Port, _ = strconv.ParseInt(env.GoDotEnvVariable("DB_PORT"), 10, 0)
 	cfg.Name = env.GoDotEnvVariable("DB_NAME")
 	cfg.Host = env.GoDotEnvVariable("DB_HOST")
-	err := database.Init(cfg)
+	err = database.Init(cfg)
 	helpers.DieOnError("database connection failed", err)
 	database.Migrate()
 

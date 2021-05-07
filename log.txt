@@ -1,0 +1,2 @@
+time="2021-05-07T11:18:32Z" level=error msg="Couldn't find variable : DATABASE_URL"
+time="2021-05-07T11:18:32Z" level=warning msg="db connection failed. (%s/5)1"
