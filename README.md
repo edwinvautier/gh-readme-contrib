@@ -5,7 +5,7 @@
 ## Weekly activity
 
 <div align="center">
-![](https://gh-readme-contrib.herokuapp.com/api/edwinvautier/go-gadgeto)
+  <img src="https://gh-readme-contrib.herokuapp.com/api/edwinvautier/go-gadgeto"/>
 </div>
 
 ## Setup
