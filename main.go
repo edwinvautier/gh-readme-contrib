@@ -43,12 +43,14 @@ func main() {
 	}))
 	port := env.GoDotEnvVariable("PORT")
 	if port == "" {
-		port = "8000"
+		port = ":8000"
+	} else {
+		port = ":" + port
 	}
 	log.Info("try to run app on port ", port)
 	routes.Init(router)
 	go func() {
-		if err := router.Run(":", port); err != nil && err != http.ErrServerClosed {
+		if err := router.Run(port); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
