@@ -2,6 +2,12 @@
 
 [![Build](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/ci.yml/badge.svg)](https://github.com/edwinvautier/gh-readme-contrib/actions/workflows/ci.yml)
 
+## Weekly activity
+
+<div align="center">
+![](https://gh-readme-contrib.herokuapp.com/api/edwinvautier/go-gadgeto)
+</div>
+
 ## Setup
 
 > If you want more informations about the available make commands, run `make help`
