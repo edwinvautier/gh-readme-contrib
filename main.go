@@ -44,9 +44,10 @@ func main() {
 		AllowCredentials: true,
 	}))
 	routes.Init(router)
-
+	port := env.GoDotEnvVariable("PORT")
+	log.Info("try to run app on port ", port)
 	go func() {
-		if err := router.Run(":", env.GoDotEnvVariable("PORT")); err != nil && err != http.ErrServerClosed {
+		if err := router.Run(":", port); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 		}
 	}()
