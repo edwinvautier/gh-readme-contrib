@@ -19,7 +19,8 @@ import (
 )
 
 func main() {
-
+	f, err := os.OpenFile("log.txt", os.O_WRONLY | os.O_CREATE, 0755)
+	log.SetOutput(f)
 	// Connect to database and execute migrations
 	cfg := database.Config{}
 	cfg.User = env.GoDotEnvVariable("DB_USER")
