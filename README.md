@@ -5,7 +5,7 @@
 ## Weekly activity
 
 <div align="center">
-  <img src="https://gh-readme-contrib.herokuapp.com/api/edwinvautier/gh-readme-contrib"/>
+  <img src="https://gh-readme-contrib.herokuapp.com/api/edwinvautier/gh-readme-contrib?bg=f0f"/>
 </div>
 
 ## Add chart to your repository
