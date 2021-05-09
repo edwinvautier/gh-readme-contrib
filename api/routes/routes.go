@@ -9,7 +9,7 @@ import (
 // Init initializes router with the following routes
 func Init(r *gin.Engine) {
 	r.GET("/", controllers.Healtcheck)
-		
+
 	api := r.Group("/api")
 	{
 		api.GET("/:author/:repository", controllers.GetRepositoryByNameAndAuthor)

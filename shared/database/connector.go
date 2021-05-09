@@ -30,7 +30,7 @@ func Init(cfg Config) error {
 	if dbURL == "" {
 		dbURL = fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
 	}
-	
+
 	var tmpDb *gorm.DB
 	var err error
 

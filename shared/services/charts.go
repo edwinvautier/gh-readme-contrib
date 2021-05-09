@@ -31,32 +31,32 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#` + config.UI.BackgroundColor + `"/>
 	<text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
 	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#` + config.UI.MainColor + `" fill="none"/>
-	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="115" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 4].Date.Format("January 2") + `</text>
+	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="115" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-4].Date.Format("January 2") + `</text>
 	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#` + config.UI.MainColor + `" fill="none"/>
-	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 3].Date.Format("January 2") + `</text>
+	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-3].Date.Format("January 2") + `</text>
 	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#` + config.UI.MainColor + `" fill="none"/>
-	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="325" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 2].Date.Format("January 2") + `</text>
+	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="325" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-2].Date.Format("January 2") + `</text>
 	`
 	points := []Point{
 		{
 			X: 10,
-			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats) - 5].Total)),
+			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats)-5].Total)),
 		},
 		{
 			X: 115,
-			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats) - 4].Total)),
+			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats)-4].Total)),
 		},
 		{
 			X: 220,
-			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats) - 3].Total)),
+			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats)-3].Total)),
 		},
 		{
 			X: 325,
-			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats) - 2].Total)),
+			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats)-2].Total)),
 		},
 		{
 			X: 430,
-			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats) - 1].Total)),
+			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats)-1].Total)),
 		},
 	}
 	path := renderCurve(points, config.UI)
@@ -104,7 +104,7 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 		config.UI.BackgroundColor = c.Query("bg")
 	}
 	if c.Query("main") != "" {
-		config.UI.MainColor= c.Query("main")
+		config.UI.MainColor = c.Query("main")
 	}
 	if c.Query("text") != "" {
 		config.UI.TextColor = c.Query("text")
@@ -113,4 +113,3 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 
 	return config
 }
-

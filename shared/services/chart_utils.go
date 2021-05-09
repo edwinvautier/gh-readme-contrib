@@ -5,7 +5,6 @@ import (
 	"math"
 )
 
-
 func renderCurve(points []Point, config UIConfig) string {
 	path := `<path fill-opacity="0.7" fill="url(#gradient)" stroke-width="3px" stroke="#` + config.MainColor + `" d="`
 
@@ -14,21 +13,21 @@ func renderCurve(points []Point, config UIConfig) string {
 		if i == 0 {
 			path += fmt.Sprintf("M 10 240 L %d %d", point.X, point.Y)
 		} else {
-			path+= bezier(point, i, points)
+			path += bezier(point, i, points)
 		}
 	}
 	path += " L 430 240\"/>"
-	
+
 	return path
 }
 
 func bezier(point Point, i int, points []Point) string {
-	previousIndex := i-2
-	if i - 2 < 0 {
+	previousIndex := i - 2
+	if i-2 < 0 {
 		previousIndex = i
 	}
-	nextIndex := i+1
-	if i + 1 == len(points) {
+	nextIndex := i + 1
+	if i+1 == len(points) {
 		nextIndex = i
 	}
 
@@ -37,20 +36,20 @@ func bezier(point Point, i int, points []Point) string {
 	startCtlPt := controlPoint(points[i-1], previous, point, false)
 	endCtlPt := controlPoint(point, points[i-1], next, true)
 
-	str := fmt.Sprintf("C %d,%d %d,%d %d,%d", startCtlPt.X, startCtlPt.Y, endCtlPt.X, endCtlPt.Y, point.X, point.Y)		
+	str := fmt.Sprintf("C %d,%d %d,%d %d,%d", startCtlPt.X, startCtlPt.Y, endCtlPt.X, endCtlPt.Y, point.X, point.Y)
 	return str
 }
 
 func line(point1, point2 Point) Line {
-	lengthX := float64(point1.X) - float64(point2.X) 
+	lengthX := float64(point1.X) - float64(point2.X)
 	lengthY := float64(point1.Y) - float64(point2.Y)
-	return Line {
+	return Line{
 		Length: math.Sqrt(math.Pow(lengthX, 2) + math.Pow(lengthY, 2)),
-		Angle: math.Atan2(lengthY, lengthX),
+		Angle:  math.Atan2(lengthY, lengthX),
 	}
 }
 
-func controlPoint(current, previous, next Point, reverse bool) Point {	
+func controlPoint(current, previous, next Point, reverse bool) Point {
 	smoothing := 0.2
 	o := line(previous, next)
 	var angle float64
@@ -60,9 +59,9 @@ func controlPoint(current, previous, next Point, reverse bool) Point {
 		angle = 0
 	}
 	length := o.Length * smoothing
-	x := float64(current.X) + math.Cos(angle) * length
-	y := float64(current.Y) + math.Sin(angle) * length
-	return Point {
+	x := float64(current.X) + math.Cos(angle)*length
+	y := float64(current.Y) + math.Sin(angle)*length
+	return Point{
 		X: uint(math.Round(x)),
 		Y: uint(math.Round(y)),
 	}
@@ -75,5 +74,5 @@ type Point struct {
 
 type Line struct {
 	Length float64
-	Angle float64
+	Angle  float64
 }
