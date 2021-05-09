@@ -5,8 +5,17 @@
 ## Weekly activity
 
 <div align="center">
-  <img src="https://gh-readme-contrib.herokuapp.com/api/edwinvautier/go-gadgeto"/>
+  <img src="https://gh-readme-contrib.herokuapp.com/api/edwinvautier/gh-readme-contrib"/>
 </div>
+
+## Add chart to your repository
+
+Your repository must be public, or at least you have to deploy the app with a custom github API token.
+To add the image on your repository, simply add the following line to your README: 
+
+```md
+![](https://gh-readme-contrib.herokuapp.com/api/author/repository)
+```
 
 ## Setup
 
