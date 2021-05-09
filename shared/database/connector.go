@@ -26,8 +26,10 @@ type Config struct {
 
 // Init Initializes a db connection
 func Init(cfg Config) error {
-	dbURL := fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
- 	dbURL = env.GoDotEnvVariable("DATABASE_URL")
+	dbURL := env.GoDotEnvVariable("DATABASE_URL")
+	if dbURL == "" {
+		dbURL = fmt.Sprintf("host=%s port=%d user=%s "+"password=%s dbname=%s sslmode=disable", cfg.Host, cfg.Port, cfg.User, cfg.Password, cfg.Name)
+	}
 	
 	var tmpDb *gorm.DB
 	var err error
