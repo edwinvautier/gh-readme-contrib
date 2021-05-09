@@ -23,21 +23,21 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	}
 	<defs>
     <linearGradient id="gradient" x1="50%" y1="0%" x2="50%" y2="100%">
-      <stop offset="0%"   stop-color="#ff7f00"/>
-      <stop offset="50%"   stop-color="#ff7f00"/>
-      <stop offset="150%" stop-color="#141321"/>
+      <stop offset="0%"   stop-color="#` + config.UI.MainColor + `"/>
+      <stop offset="50%"   stop-color="#` + config.UI.MainColor + `"/>
+      <stop offset="150%" stop-color="#` + config.UI.BackgroundColor + `"/>
     </linearGradient>
   </defs>
 	<g>
 	<title>Commits chart</title>
 	<rect rx="15" id="svg_3" height="270" width="440" fill="#` + config.UI.BackgroundColor + `"/>
-	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#141321"/>
+	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#` + config.UI.BackgroundColor + `"/>
 	<text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
-	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#ff7f00" fill="none"/>
+	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#` + config.UI.MainColor + `" fill="none"/>
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="115" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 4].Date.Format("January 2") + `</text>
-	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#ff7f00" fill="none"/>
+	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#` + config.UI.MainColor + `" fill="none"/>
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 3].Date.Format("January 2") + `</text>
-	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#ff7f00" fill="none"/>
+	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#` + config.UI.MainColor + `" fill="none"/>
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="325" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats) - 2].Date.Format("January 2") + `</text>
 	`
 	points := []Point{
@@ -62,10 +62,10 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 			Y: 240 - calcOffsetBottom(config.MaxHeight, config.MaxValue, uint(config.WeeklyStats[len(config.WeeklyStats) - 1].Total)),
 		},
 	}
-	path := renderCurve(points)
+	path := renderCurve(points, config.UI)
 	svg += path
 	svg += `
-	<path d="M 10 242 L 10 40 L 430 40 L 430 242" stroke-width="4px" stroke="#141321" fill="none"/>
+	<path d="M 10 242 L 10 40 L 430 40 L 430 242" stroke-width="4px" stroke="#` + config.UI.BackgroundColor + `" fill="none"/>
 	</g>
 
  </svg>`
@@ -88,7 +88,7 @@ type ChartConfig struct {
 
 type UIConfig struct {
 	BackgroundColor string
-	LineColor       string
+	MainColor       string
 	TextColor       string
 }
 
@@ -100,16 +100,25 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 	// UI Config
 	config.UI = UIConfig{
 		BackgroundColor: "141321",
-		LineColor:       "f0f",
+		MainColor:       "ff7f00",
 		TextColor:       "D83A7C",
+	}
+	if c.Query("bg") != "" {
+		config.UI.BackgroundColor = c.Query("bg")
+	}
+	if c.Query("main") != "" {
+		config.UI.MainColor= c.Query("main")
+	}
+	if c.Query("text") != "" {
+		config.UI.TextColor = c.Query("text")
 	}
 	config.MaxHeight = 190
 
 	return config
 }
 
-func renderCurve(points []Point) string {
-	path := "<path fill-opacity=\"0.7\" fill=\"url(#gradient)\" stroke-width=\"3px\" stroke=\"#ff7f00\" d=\""
+func renderCurve(points []Point, config UIConfig) string {
+	path := `<path fill-opacity="0.7" fill="url(#gradient)" stroke-width="3px" stroke="#` + config.MainColor + `" d="`
 
 	for i := 0; i < len(points); i++ {
 		point := points[i]
