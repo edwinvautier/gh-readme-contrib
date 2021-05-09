@@ -17,6 +17,16 @@ To add the image on your repository, simply add the following line to your READM
 ![](https://gh-readme-contrib.herokuapp.com/api/author/repository)
 ```
 
+## Set config colors
+
+The following query parameters are available:
+
+| name | description                  | type | example                                        |
+| ---- | ---------------------------- | ---- | ---------------------------------------------- |
+| main | the main color (chart curve) | hex  | `/api/edwinvautier/gh-readme-contrib?main=f0f` |
+| bg   | the background color         | hex  | `/api/edwinvautier/gh-readme-contrib?bg=f0f`   |
+| text | text color                   | hex  | `/api/edwinvautier/gh-readme-contrib?text=f0f` |
+
 ## Setup
 
 > If you want more informations about the available make commands, run `make help`
