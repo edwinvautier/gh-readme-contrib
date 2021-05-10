@@ -29,7 +29,7 @@ func UpdateWeekByID(week *models.Week, id uint64) error {
 
 	err = database.Db.Debug().Save(&week).Error
 	if err != nil {
-		return errors.New("Could'nt update week")
+		return errors.New("could'nt update week")
 	}
 
 	return nil
@@ -101,7 +101,6 @@ func FetchWeeks(repository *models.Repository) ([]models.Week, error) {
 		)
 		tc := oauth2.NewClient(ctx, ts)
 		client := github.NewClient(tc)
-
 		stats, _, err := client.Repositories.ListCommitActivity(context.TODO(), repository.Author, repository.Name)
 		if err != nil {
 			log.Error(err)
