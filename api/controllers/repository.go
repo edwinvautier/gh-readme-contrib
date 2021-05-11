@@ -37,6 +37,7 @@ func GetRepositoryByNameAndAuthor(c *gin.Context) {
 		c.String(http.StatusOK, "<svg width=\"440\" height=\"270\" xmlns=\"http://www.w3.org/2000/svg\"><text>Empty data</text</svg>")
 		return
 	}
-
+	
+	c.Header("Cache-Control", "private, max-age=0")
 	c.String(http.StatusOK, chart)
 }
