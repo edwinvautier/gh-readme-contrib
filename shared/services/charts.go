@@ -64,6 +64,25 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	svg += `
 	<path d="M 10 242 L 10 40 L 430 40 L 430 242" stroke-width="4px" stroke="#` + config.UI.BackgroundColor + `" fill="none"/>
 	</g>
+	<style>
+	.path {
+		stroke-dasharray: 1000;
+		stroke-dashoffset: 1000;
+		fill-opacity: 0;
+		animation: dash 3s linear 0s forwards, opacity 1s linear 3s forwards;
+	}
+	
+	@keyframes dash {
+		to {
+			stroke-dashoffset: 0;
+		}
+	}
+	@keyframes opacity {
+		to {
+			fill-opacity: 1;
+		}
+	}
+	</style>
 
  </svg>`
 

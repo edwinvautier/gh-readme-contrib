@@ -6,7 +6,7 @@ import (
 )
 
 func renderCurve(points []Point, config UIConfig) string {
-	path := `<path fill-opacity="0.7" fill="url(#gradient)" stroke-width="3px" stroke="#` + config.MainColor + `" d="`
+	path := `<path class="path" fill-opacity="0.7" fill="url(#gradient)" stroke-width="3px" stroke="#` + config.MainColor + `" d="`
 
 	for i := 0; i < len(points); i++ {
 		point := points[i]
