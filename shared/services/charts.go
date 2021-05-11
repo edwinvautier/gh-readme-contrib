@@ -128,7 +128,7 @@ func InitChartConfig(c *gin.Context) ChartConfig {
 	if c.Query("text") != "" {
 		config.UI.TextColor = c.Query("text")
 	}
-	config.MaxHeight = 190
+	config.MaxHeight = 160
 
 	return config
 }
