@@ -7,7 +7,6 @@ import (
 	"github.com/edwinvautier/gh-readme-contrib/api/repositories"
 	"github.com/edwinvautier/gh-readme-contrib/shared/services"
 	"github.com/gin-gonic/gin"
-	log "github.com/sirupsen/logrus"
 )
 
 // GetRepositoryByNameAndAuthor is the controller to get a repository by Name
