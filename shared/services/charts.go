@@ -30,11 +30,13 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	<rect rx="15" id="svg_3" height="270" width="440" fill="#` + config.UI.BackgroundColor + `"/>
 	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#` + config.UI.BackgroundColor + `"/>
 	<text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
-	<line id="svg_5" y2="239" x2="115" y1="41" x1="115" stroke="#` + config.UI.MainColor + `" fill="none"/>
+	<path class="gridPath" d="M 115, 239 L 115 41" stroke="#` + config.UI.MainColor + `" fill="none" />
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="115" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-4].Date.Format("January 2") + `</text>
-	<line id="svg_8" y2="239" x2="220" y1="41" x1="220" stroke="#` + config.UI.MainColor + `" fill="none"/>
+	
+	<path class="gridPath" d="M 220, 239 L 220 41" stroke="#` + config.UI.MainColor + `" fill="none" />
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-3].Date.Format("January 2") + `</text>
-	<line id="svg_9" y2="239" x2="325" y1="41" x1="325" stroke="#` + config.UI.MainColor + `" fill="none"/>
+	
+	<path class="gridPath" d="M 325, 239 L 325 41" stroke="#` + config.UI.MainColor + `" fill="none" />
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="325" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-2].Date.Format("January 2") + `</text>
 	`
 	points := []Point{
@@ -69,12 +71,22 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 		stroke-dasharray: 1000;
 		stroke-dashoffset: 1000;
 		fill-opacity: 0;
-		animation: dash 3s linear 0s forwards, opacity 1s linear 3s forwards;
+		animation: dash 3s linear 0s forwards, opacity 1s linear 2s forwards;
 	}
-	
+	.gridPath {
+		stroke-width: .5;
+		stroke-dasharray: 200;
+		stroke-dashoffset: 200;
+		animation: dash 1s linear .5s forwards, enlarge .5s linear 2s forwards;
+	}
 	@keyframes dash {
 		to {
 			stroke-dashoffset: 0;
+		}
+	}
+	@keyframes enlarge {
+		to {
+			stroke-width: 1px;
 		}
 	}
 	@keyframes opacity {
