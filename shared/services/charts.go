@@ -1,6 +1,8 @@
 package services
 
 import (
+	"fmt"
+
 	"github.com/edwinvautier/gh-readme-contrib/api/models"
 	"github.com/gin-gonic/gin"
 )
@@ -29,7 +31,8 @@ func GenerateChartFromContribs(config ChartConfig) (string, error) {
 	<title>Commits chart</title>
 	<rect rx="15" id="svg_3" height="270" width="440" fill="#` + config.UI.BackgroundColor + `"/>
 	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#` + config.UI.BackgroundColor + `"/>
-	<text font-weight="bold" xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="220" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.Author + "/" + config.Name + `</text>
+	<text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="10" stroke="#000" fill="#` + config.UI.TextColor + `">Weekly activity</text>
+	<text font-weight="bold" xml:space="preserve" text-anchor="end" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_10" y="27" x="430" stroke="#000" fill="#` + config.UI.TextColor + `">` + fmt.Sprint(config.WeeklyStats[len(config.WeeklyStats)-1].Total) + ` commits this week</text>
 	<path class="gridPath" d="M 115, 239 L 115 41" stroke="#` + config.UI.MainColor + `" fill="none" />
 	<text xml:space="preserve" text-anchor="middle" font-family="sans-serif" font-size="10" stroke-width="0" id="svg_4" y="260" x="115" stroke="#000" fill="#` + config.UI.TextColor + `">` + config.WeeklyStats[len(config.WeeklyStats)-4].Date.Format("January 2") + `</text>
 	
