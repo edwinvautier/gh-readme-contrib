@@ -21,11 +21,12 @@ To add the image on your repository, simply add the following line to your READM
 
 The following query parameters are available:
 
-| name | description                  | type | example                                        |
-| ---- | ---------------------------- | ---- | ---------------------------------------------- |
-| main | the main color (chart curve) | hex  | `/api/edwinvautier/gh-readme-contrib?main=f0f` |
-| bg   | the background color         | hex  | `/api/edwinvautier/gh-readme-contrib?bg=f0f`   |
-| text | text color                   | hex  | `/api/edwinvautier/gh-readme-contrib?text=f0f` |
+| name           | description                                                                        | type | example                                                    |
+| -------------- | ---------------------------------------------------------------------------------- | ---- | ---------------------------------------------------------- |
+| main           | the main color (chart curve)                                                       | hex  | `/api/edwinvautier/gh-readme-contrib?main=f0f`             |
+| bg             | the background color                                                               | hex  | `/api/edwinvautier/gh-readme-contrib?bg=f0f`               |
+| text           | text color                                                                         | hex  | `/api/edwinvautier/gh-readme-contrib?text=f0f`             |
+| display_number | say if you want to display the current week commits number or not, default to true | bool | `/api/edwinvautier/gh-readme-contrib?display_numbre=false` |
 
 ## Setup
 
