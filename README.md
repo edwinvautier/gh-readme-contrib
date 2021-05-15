@@ -44,9 +44,9 @@ make start
 
 You branch should have a name that reflects it's purpose.
 
-It should use the same guidelines as [COMMIT_CONVENTIONS](COMMIT_CONVENTIONS.md) (`feat`, `fix`, `build`, `perf`, `docs`), followed by an underscore (`_`) and a very quick summary of the subject in **kebab case**.
+It should use the same guidelines as [COMMIT_CONVENTIONS](COMMIT_CONVENTIONS.md) (`feat`, `fix`, `build`, `perf`, `docs`), followed by a dash (`-`) and a very quick summary of the subject in **kebab case**.
 
-Example: `feat_add-image-tag-database-relation`.
+Example: `feat-add-image-tag-database-relation`.
 
 ## Pull requests (PR)
 
