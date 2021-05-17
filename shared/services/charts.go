@@ -121,6 +121,7 @@ type ChartConfig struct {
 	Name string
 	WeeklyStats []models.Week
 	DisplayCurrentWeekCommits bool
+	ContributorsStats []models.Contributor
 }
 
 type UIConfig struct {
