@@ -37,7 +37,7 @@ func GetRepositoryByNameAndAuthor(c *gin.Context) {
 		c.String(http.StatusOK, "<svg width=\"440\" height=\"270\" xmlns=\"http://www.w3.org/2000/svg\"><text>Empty data</text</svg>")
 		return
 	}
-	
+
 	c.Header("Cache-Control", "public, max-age=86400")
 	c.String(http.StatusOK, chart)
 }
@@ -57,7 +57,7 @@ func GetContributorsByNameAndAuthor(c *gin.Context) {
 			return
 		}
 	}
-	
+
 	contributors, err := repositories.FetchContributors(repository)
 	if err != nil {
 		c.String(http.StatusOK, "<svg width=\"440\" height=\"270\" xmlns=\"http://www.w3.org/2000/svg\"><text>Empty data</text</svg>")

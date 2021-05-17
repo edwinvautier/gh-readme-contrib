@@ -81,7 +81,7 @@ func FindContributorsByRepositoryID(id uint64) (*[]models.Contributor, error) {
 
 func FetchContributors(repository *models.Repository) ([]models.Contributor, error) {
 	var contributors *[]models.Contributor
-	
+
 	// Check if its time to fetch again
 	if shouldFetch(repository) {
 		// Fetch and save weeks
