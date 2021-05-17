@@ -38,6 +38,6 @@ func GetRepositoryByNameAndAuthor(c *gin.Context) {
 		return
 	}
 	
-	c.Header("Cache-Control", "private, max-age=0")
+	c.Header("Cache-Control", "public, max-age=86400")
 	c.String(http.StatusOK, chart)
 }
