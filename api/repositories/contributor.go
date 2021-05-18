@@ -65,10 +65,10 @@ func FindContributorByID(id uint64) (*models.Contributor, error) {
 	return &contributor, err
 }
 
-func FindContributorsByRepositoryID(id uint64) (*[]models.Contributor, error) {
+func FindTopContributorsByRepositoryID(id uint64) (*[]models.Contributor, error) {
 	var err error
 	var contributorList []models.Contributor
-	err = database.Db.Debug().Where("repository_id = ?", id).Find(&contributorList).Error
+	err = database.Db.Debug().Where("repository_id = ?", id).Order("total desc").Limit(3).Find(&contributorList).Error
 	if err != nil {
 		return &[]models.Contributor{}, err
 	}
@@ -101,6 +101,7 @@ func FetchContributors(repository *models.Repository) ([]models.Contributor, err
 			var contributor models.Contributor
 			contributor.Total = uint(*stat.Total)
 			contributor.RepositoryID = repository.ID
+			contributor.Name = *stat.Author.Login
 			CreateContributor(&contributor)
 		}
 		repository.UpdatedAt = time.Now()
@@ -108,7 +109,7 @@ func FetchContributors(repository *models.Repository) ([]models.Contributor, err
 			return *contributors, err
 		}
 	}
-	contributors, err := FindContributorsByRepositoryID(repository.ID)
+	contributors, err := FindTopContributorsByRepositoryID(repository.ID)
 
 	return *contributors, err
 }
