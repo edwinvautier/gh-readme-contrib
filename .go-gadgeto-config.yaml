@@ -20,6 +20,18 @@ models:
       name: Repository
       isslice: false
       slicetype: ""
+    - type: string
+      name: ImageLink
+      isslice: false
+      slicetype: ""
+    - type: string
+      name: ImageLink
+      isslice: false
+      slicetype: ""
+    - type: uint64
+      name: RepositoryID
+      isslice: false
+      slicetype: ""
   repository:
     fields:
     - isslice: false

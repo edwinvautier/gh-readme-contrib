@@ -102,6 +102,8 @@ func FetchContributors(repository *models.Repository) ([]models.Contributor, err
 			contributor.Total = uint(*stat.Total)
 			contributor.RepositoryID = repository.ID
 			contributor.Name = *stat.Author.Login
+			contributor.ImageLink = *stat.Author.AvatarURL
+
 			CreateContributor(&contributor)
 		}
 		repository.UpdatedAt = time.Now()
