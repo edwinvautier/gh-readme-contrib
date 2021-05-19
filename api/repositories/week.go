@@ -129,7 +129,7 @@ func shouldFetch(repository *models.Repository) bool {
 	updatedAt := repository.UpdatedAt
 	updatedAt = updatedAt.Add(7 * 24 * time.Hour)
 
-	return updatedAt.Before(lastMonday)
+	return updatedAt.After(lastMonday)
 }
 
 /*

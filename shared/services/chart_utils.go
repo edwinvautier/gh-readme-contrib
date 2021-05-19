@@ -76,3 +76,10 @@ type Line struct {
 	Length float64
 	Angle  float64
 }
+
+func generateRect(val uint, position uint, maxVal uint, color string) string {
+	height := calcOffsetBottom(150, maxVal, val) + 50
+	yPos := fmt.Sprint(270 - height)
+	xPos := fmt.Sprint(70 + 100*position)
+	return `<rect y="` + yPos + `" x="` + xPos + `" height="` + fmt.Sprint(height) + `" width="100" fill="#` + color + `" />`
+}

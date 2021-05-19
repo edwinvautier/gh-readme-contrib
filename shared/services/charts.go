@@ -177,9 +177,16 @@ func GenerateChartFromContributors(config ChartConfig) (string, error) {
 	<rect y="40" x="10" id="svg_7" height="200" width="420" fill="#` + config.UI.BackgroundColor + `"/>
 	<text font-weight="bold" xml:space="preserve" text-anchor="start" font-family="sans-serif" font-size="15" stroke-width="0" id="svg_4" y="27" x="10" stroke="#000" fill="#` + config.UI.TextColor + `">Top contributors</text>
 	`
-
+	colors := []string{"ffbf00", "e0e0e0", "ea4e00"}
+	for i := 0; i < 4; i++ {
+		if i == len(config.ContributorsStats) {
+			break
+		}
+		stat := config.ContributorsStats[i]
+		svg += generateRect(stat.Total, uint(i), config.ContributorsStats[0].Total, colors[i])
+	}
 	svg += `
-	<path d="M 10 242 L 10 40 L 430 40 L 430 242" stroke-width="4px" stroke="#` + config.UI.BackgroundColor + `" fill="none"/>
+	<image width="20" height="20" href="` + config.ContributorsStats[0].ImageLink + `"/>
 	</g>
 	<style>
 	.path {
