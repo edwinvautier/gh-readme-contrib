@@ -1,6 +1,37 @@
 bundles: []
 database: postgres
 models:
+  contributor:
+    name: Contributor
+    namepascalcase: Contributor
+    namelowercase: contributor
+    hasdate: false
+    hascustomtypes: true
+    fields:
+    - type: string
+      name: Name
+      isslice: false
+      slicetype: ""
+    - type: uint
+      name: Total
+      isslice: false
+      slicetype: ""
+    - type: Repository
+      name: Repository
+      isslice: false
+      slicetype: ""
+    - type: string
+      name: ImageLink
+      isslice: false
+      slicetype: ""
+    - type: string
+      name: ImageLink
+      isslice: false
+      slicetype: ""
+    - type: uint64
+      name: RepositoryID
+      isslice: false
+      slicetype: ""
   repository:
     fields:
     - isslice: false
@@ -21,27 +52,27 @@ models:
     namelowercase: repository
     namepascalcase: Repository
   week:
-    name: Week
-    namepascalcase: Week
-    namelowercase: week
-    hasdate: false
-    hascustomtypes: true
     fields:
-    - type: string
+    - isslice: false
       name: Name
-      isslice: false
       slicetype: ""
-    - type: uint
+      type: string
+    - isslice: false
       name: Total
-      isslice: false
       slicetype: ""
-    - type: uint64
+      type: uint
+    - isslice: false
       name: RepositoryID
-      isslice: false
       slicetype: ""
-    - type: Repository
+      type: uint64
+    - isslice: false
       name: Repository
-      isslice: false
       slicetype: ""
+      type: Repository
+    hascustomtypes: true
+    hasdate: false
+    name: Week
+    namelowercase: week
+    namepascalcase: Week
 package: github.com/edwinvautier/gh-readme-contrib
 use_docker: true

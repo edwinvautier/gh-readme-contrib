@@ -3,6 +3,8 @@ package services
 import (
 	"fmt"
 	"math"
+
+	"github.com/edwinvautier/gh-readme-contrib/api/models"
 )
 
 func renderCurve(points []Point, config UIConfig) string {
@@ -75,4 +77,15 @@ type Point struct {
 type Line struct {
 	Length float64
 	Angle  float64
+}
+
+func generateRect(contributorStats models.Contributor, position uint, maxVal uint, color string) string {
+	height := calcOffsetBottom(150, maxVal, contributorStats.Total) + 50
+	yPos := 270 - height
+	xPos := 70 + 100*position
+
+	rect := `<rect y="` + fmt.Sprint(yPos) + `" x="` + fmt.Sprint(xPos) + `" height="` + fmt.Sprint(height) + `" width="100" fill="#` + color + `" />`
+	image := `<image x="` + fmt.Sprint(xPos+40) + `" y="` + fmt.Sprint(yPos+(height/2)-10) + `" width="20" height="20" href="` + contributorStats.ImageLink + `"/>`
+	text := `<text text-anchor="middle" font-weight="bold" font-size="8px" x="` + fmt.Sprint(xPos+50) + `" y="` + fmt.Sprint(yPos+(height/2)+20) + `">` + contributorStats.Name + `</text>`
+	return rect + image + text
 }

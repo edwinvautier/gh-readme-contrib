@@ -125,9 +125,23 @@ func FetchWeeks(repository *models.Repository) ([]models.Week, error) {
 }
 
 func shouldFetch(repository *models.Repository) bool {
-	now := time.Now()
+	lastMonday := GetFirstDateOfWeek()
 	updatedAt := repository.UpdatedAt
 	updatedAt = updatedAt.Add(7 * 24 * time.Hour)
 
-	return updatedAt.Before(now)
+	return updatedAt.After(lastMonday)
+}
+
+/*
+Gets the date of Monday this week
+*/
+func GetFirstDateOfWeek() (weekMonday time.Time) {
+	now := time.Now()
+
+	offset := int(time.Monday - now.Weekday())
+	if offset > 0 {
+		offset = -6
+	}
+
+	return time.Date(now.Year(), now.Month(), now.Day(), 0, 0, 0, 0, time.Local).AddDate(0, 0, offset)
 }
