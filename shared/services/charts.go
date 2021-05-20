@@ -183,10 +183,9 @@ func GenerateChartFromContributors(config ChartConfig) (string, error) {
 			break
 		}
 		stat := config.ContributorsStats[i]
-		svg += generateRect(stat.Total, uint(i), config.ContributorsStats[0].Total, colors[i])
+		svg += generateRect(stat, uint(i), config.ContributorsStats[0].Total, colors[i])
 	}
 	svg += `
-	<image width="20" height="20" href="` + config.ContributorsStats[0].ImageLink + `"/>
 	</g>
 	<style>
 	.path {
